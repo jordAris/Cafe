@@ -22,7 +22,7 @@ class waiter {
 
     validate(Id, tableID) {
        let Cmd = this.authentifService.getCmdByTable(tableID);
-       if (Cmd.ID = Id) {
+       if (Cmd.ID = Id && Cmd.status == "Intention") {
         Cmd.status = "validate";
         return 1;
        } else {
@@ -33,7 +33,7 @@ class waiter {
 
     validateServ(Id, tableID) {
         let Cmd = this.authentifService.getCmdByTable(tableID);
-        if (Cmd.ID = Id && Cmd.status) {
+        if (Cmd.ID = Id && Cmd.status == "PreparedOK") {
             Cmd.status = "served";
             return 1;
         } else {
