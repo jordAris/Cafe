@@ -17,6 +17,7 @@ class Table {
 
     makeCommand() {
         this.command = this.commandService.createCommand();
+        this.command.state = "intention";
     }
 
     addItem(itemId, quantity) {

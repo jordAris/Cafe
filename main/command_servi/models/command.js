@@ -1,10 +1,11 @@
 class command {
-    constructor(id, date_hour, table_num, menuService){
+    constructor(id, date_hour, table_num, menuService, status){
         this.id=id;
         this.date_hour=date_hour;
         this.table_num=table_num;
         this.menuService = menuService;
         this.items = [];
+        this.status = status;
     }
 
     get id(){
@@ -21,6 +22,10 @@ class command {
 
     get items(){
         return this.items;
+    }
+
+    get status() {
+        return this.status;
     }
 
     getMontant(){
