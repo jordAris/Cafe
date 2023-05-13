@@ -42,7 +42,7 @@ class Manager{
         
         let Ingredients = []
         let Balance = [];
-        this.menuService.getAllIngredientByType().forEach(Ingredient => {
+        this.menuService.getAllIngredient().forEach(Ingredient => {
             Ingredients.push(Ingredient);
             Income += Ingredient.cost
         })
@@ -100,10 +100,20 @@ class Manager{
             });
             let Bill = {
                 Plate: Items,
-                Total: this.commandService.getMontantByID(CommandID)
+                Total: command.getMontant()
             };
         } else {
             console.log('error occurred while establishing the bill')
+        }
+    }
+
+    addIngredient(Type, quantity, description){
+        if (Type == this.menuService.getIngredientByTYpe(Type)){
+            this.menuService.addIngredient(Type, quantity, description);
+            console.log('Ingredient update')
+        } else {
+            this.menuService.createIngredient(Type, quantity, description);
+            console.log('Ingredient saved')
         }
     }
 }
