@@ -25,7 +25,7 @@ class Table {
             this.commandService.addItemToComm(this.command, itemId, quantity);
             console.log(`Item added to command: ${itemId}`)
         } else {
-            console.log('error occured during the creation of the command')
+            console.log('error occurred during the creation of the command')
         }
     }
 
@@ -33,7 +33,7 @@ class Table {
         if (this.command) {
             return this.commandService.getMontant(this.command)
         } else {
-            console.log("error occured")
+            console.log("error occurred")
         }
     }
 
