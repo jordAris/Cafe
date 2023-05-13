@@ -6,7 +6,6 @@ class cook {
         this.name = name;
         this.hire_date= hire_date;
         this.commandService= commandService;
-        this.validCmd = [];
     }
 
     get id() {
@@ -21,14 +20,28 @@ class cook {
         return this.hire_date;
     }
 
-    consultVldComm(){
-        
+    consultValidComm(){
+        let ValidCmd = [];
+
+        this.commandService.findAll().forEach(element => {
+            if (element.status == "validate") {
+                ValidCmd.push(element);
+            }
+        });
+
+        return ValidCmd;
     }
 
-    validate() {
-        let check = true;
-        return check;
-    }
+    validate(Id, tableID) {
+        let Cmd = this.authentifService.getCmdByTable(tableID);
+        if (Cmd.ID == Id && Cmd.status == "validate") {
+         Cmd.status = "preparation";
+         return 1;
+        } else {
+         console.log('an error occured');
+         return 0;
+        }
+     }
     
     
 }
