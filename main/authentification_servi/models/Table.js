@@ -32,7 +32,7 @@ class Table {
     rmvItem(itemId) {
         if (this.command) {
             return this.commandService.getMontant(this.command)
-        } else {
+        } else { 
             console.log("error occurred")
         }
     }
