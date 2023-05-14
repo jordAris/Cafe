@@ -15,13 +15,27 @@ class commandService{
         return command
     }
     removeCommand(id) {
-        const index = Db.findById(id);
-        if (index == id){
-            command.status = "deleted";
-            Command.update();
-            return command
-        }
+        const cmd = Command.findById(id, function (err, docs) {
+            if (err){
+                console.log(err);
+            }
+            else{
+                cmd = docs;
+                console.log("Result : ", cmd);
+                cmd.update({status:"deleted"}, function (err, result) {
+                    if (err){
+                        console.log(err)
+                    }else{
+                        console.log("Result :", result) 
+                    }
+                });
+                return cmd
+            };
+        });
+        
+        
     }
 }
+
     
 
