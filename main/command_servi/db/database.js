@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
   
   run().catch(console.dir);
 */
-  const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const connectToDatabase = async () => {
   try {
@@ -35,16 +35,43 @@ const connectToDatabase = async () => {
   }
 };
 
-const disconnectFromDatabase = async () => {
-  try {
-    await mongoose.disconnect();
-    console.log('Disconnected from the database');
-  } catch (error) {
-    console.error('Error disconnecting from the database:', error);
-  }
-};
+
+
+const CommandSchema = new mongoose.Schema({
+    commandId: String,
+    tableId: String,
+    Items: [{
+        itemId: String,
+        name: String,
+        price: String,
+    }] 
+})
+
+const Command = mongoose.model('Command', CommandSchema);
+  
+// Create collection of Model
+Command.createCollection().then(function (collection) {
+    console.log('Collection is created!');
+});
+  /* var mongo = require ('mongodb') 
+  var MongoClient = require ('mongodb'). MongoClient; 
+  var url = "mongodb: // localhost: 27017 / newdb";
+  MongoClient.connect (url, function (err, db) {
+    if (err) throwerr; 
+    console.log ("Base de données connectée!"); 
+    Vardbo = db.db ("newdb"); 
+    dbo.collection ("étudiants"). insertMany ([{"name": "John", "marks": 90}, {"name": "Tim", "marks": 80}],
+    function (err, res) {
+      if (err) throwerr; 
+      console .log ("Documents insérés");
+      db.close ();
+    });
+  }); */
+
 
 module.exports = {
   connectToDatabase,
-  disconnectFromDatabase,
+ 
 };
+
+connectToDatabase();
