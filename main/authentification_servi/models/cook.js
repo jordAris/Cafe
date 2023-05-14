@@ -45,3 +45,5 @@ class cook {
     
     
 }
+
+module.exports = cook;

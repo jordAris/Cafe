@@ -7,14 +7,6 @@ class Table {
         this.menuService = menuService;
     }
 
-    get id(){
-        return this.id;
-    }
-
-    get tab_num(){
-        return this.tab_num;
-    }
-
     makeCommand() {
         this.command = this.commandService.createCommand();
         this.command.state = "intention";
@@ -60,3 +52,5 @@ class Table {
         return menu;
     }
 }
+
+module.exports = Table;
