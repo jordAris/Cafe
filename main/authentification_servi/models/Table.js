@@ -12,14 +12,14 @@ class Table {
         this.command.state = "intention";
     }
 
-    addItem(itemId, quantity) {
-        if (this.command) {
-            this.commandService.addItemToComm(this.command, itemId, quantity);
-            console.log(`Item added to command: ${itemId}`)
-        } else {
-            console.log('error occurred during the creation of the command')
-        }
-    }
+    // addItem(itemId, quantity) {
+    //     if (this.command) {
+    //         this.commandService.addItemToComm(this.command, itemId, quantity);
+    //         console.log(`Item added to command: ${itemId}`)
+    //     } else {
+    //         console.log('error occurred during the creation of the command')
+    //     }
+    // }
 
     rmvItem(itemId) {
         if (this.command) {

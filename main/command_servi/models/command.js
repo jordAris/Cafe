@@ -1,9 +1,8 @@
 class command {
-    constructor(id, tableID, ...items){
+    constructor(id){
         this.id=id;
         this.date_hour= new Date()
-        this.tableID=tableID;
-        this.items = [...items];
+        this.items = {items: [], quantity: 0};
         this.status = 'inactive';
     }
 
