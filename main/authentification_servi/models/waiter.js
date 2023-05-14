@@ -44,3 +44,5 @@ class waiter {
     
     
 }
+
+module.exports = waiter;
