@@ -1,7 +1,6 @@
 const command = require('../command_servi/models/class/command');
 const {connectToDatabase, disconnectFromDatabase} = require('./db/database')
 const uuid = require('uuid');
-const mongoose = require('mongoose');
 const TableModel = require('./models/schema/Table');
 
 async function passerCommand(tabID) {
@@ -35,7 +34,7 @@ async function addItemToCmd(CmdID, itemID, TabID, quantity){
     await connectToDatabase;
 
     const Command = command.findById(CmdID);
-    const table = Table.findById(TabID);
+    const table = TableModel.findById(TabID);
 
     if (Command = table.command) {
         table.command.items.push({itemID, quantity});
@@ -53,7 +52,7 @@ async function remvItemToCMd(CmdID, itemID, TabID) {
     await connectToDatabase;
 
     const Command = command.findById(CmdID);
-    const table = Table.findById(TabID);
+    const table = TableModel.findById(TabID);
 
     if (Command == table.command) {
         const item = command.items.getItemsByID(itemID);
@@ -96,7 +95,7 @@ async function prepComm(CmdID, tableID) {
     await connectToDatabase;
 
     let Command = command.getCommandById(CmdID);
-    let table = authentifService.getTableByID(tableID);
+    let table = TableModel.findById(tableID);
     if (Command == table.command && Command.status == "validate") {
         Command.status = "preparation";
         table.command.status = Command.status;
@@ -113,7 +112,7 @@ async function validCmd(CmdId, tableID) {
     await connectToDatabase;
 
     let Command = command.getCommandById(CmdId);
-    let table = authentifService.getTableByID(tableID);
+    let table = TableModel.findById(tableID);
     if (Command == table.command && Command.status == "Intention") {
         Command.status = "validate";
         table.command.status = Command.status;
@@ -131,7 +130,7 @@ async function validCmdServ(CmdId, tableID) {
     await connectToDatabase;
 
     let Command = command.getCommandById(CmdId);
-    let table = authentifService.getTableByID(tableID);
+    let table = TableModel.findById(tableID);
     if (Command == table.command && Command.status == "Prepared") {
         Command.status = "served";
         table.command.status = Command.status;
@@ -218,7 +217,7 @@ async function establishBill (cmdID, tabID){
     await connectToDatabase;
 
     let cmd = commandService.getCommandById(cmdID)
-    let table = AuthentifService.getTableById(tabID)
+    let table = TableModel.findById(tabID)
     let Items = []
     if (cmd && table.command) {
         cmd.Items.forEach(elements => {
@@ -261,3 +260,21 @@ async function rmvIngredient(IngredientID){
 
     await disconnectFromDatabase;
 }
+
+module.exports = {
+    passerCommand,
+    addItemToCmd,
+    remvItemToCMd,
+    ConsultMenu,
+    consultValComm,
+    prepComm,
+    validCmd,
+    validCmdServ,
+    consultGloby,
+    establishCompta,
+    addItemyoMenu,
+    consultEmployee,
+    establishBill,
+    addIngredient,
+    rmvIngredient
+  };
