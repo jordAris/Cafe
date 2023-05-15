@@ -1,6 +1,5 @@
-//const {MongoClient, ServerApiVersion} = require('mongodb');
-
-const uri = "mongodb+srv://zouliha:cafer@Cafe.t3pwd7r.mongodb.net/";
+/* const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://zouliha:cafe@cafe.ikenjsk.mongodb.net/Cafe?retryWrites=true&w=majority";
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -21,4 +20,37 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+run().catch(console.dir); */
+
+
+const mongoose = require('mongoose');
+
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect('mongodb+srv://zoulihacafe@cafe.ikenjsk.mongodb.net/Cafe?retryWrites=true&w=majority', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to the database');
+  } catch (error) {
+    console.error('Failed to connect to the database:', error);
+  }
+};
+
+const disconnectFromDatabase = async () => {
+  try {
+    await mongoose.disconnect();
+    console.log('Disconnected from the database');
+  } catch (error) {
+    console.error('Error disconnecting from the database:', error);
+  }
+};
+
+module.exports = {
+  connectToDatabase,
+  disconnectFromDatabase,
+};
+
+
+
+
