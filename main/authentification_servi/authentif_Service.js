@@ -7,7 +7,7 @@ async function passerCommand(tabID) {
 
     await connectToDatabase;
 
-    const Command = new command(uuid.v4());
+    const Command = new commandService.createCommeand(uuid.v4());
     Command.status = 'active'
 
     const table = TableModel.findById(tabID);
