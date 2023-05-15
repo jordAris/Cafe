@@ -1,5 +1,5 @@
 const Command = require('./models/class/command');
-const Commands = require('./schema/Command');
+const Commands = require('./models/schema/command');
 
 const uuid = require('uuid');
 const mongoose = require ('mongoose');
