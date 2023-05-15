@@ -1,5 +1,3 @@
-import express from "express";
-
 class cook {
     constructor(id, name, hire_date, commandService){
         this.id = id;
