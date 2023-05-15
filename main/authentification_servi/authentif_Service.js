@@ -1,4 +1,4 @@
-const command = require('../command_servi/models/command');
+const command = require('../command_servi/models/class/command');
 const {connectToDatabase, disconnectFromDatabase} = require('./db/database')
 const uuid = require('uuid');
 const mongoose = require('mongoose');
@@ -12,11 +12,12 @@ async function passerCommand(tabID) {
     Command.status = 'active'
 
     const table = TableModel.findById(tabID);
-    table.command=Command;
 
     if (table) {
+        table.command=Command;
         Command.status = 'intention'
         console.log('Your command has been taken in charge')
+        table.updateOne();
     } else {
         console.log("an error occurred with the identification of your table")
     }
