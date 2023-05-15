@@ -10,9 +10,13 @@ const CommandSchema = new mongoose.Schema({
     }] 
 })
 
-const Command = mongoose.model('Command', CommandSchema);
+const Commands = mongoose.model('Commands', CommandSchema);
   
 // Create collection of Model
-Command.createCollection().then(function (collection) {
+Commands.createCollection().then(function (collection) {
     console.log('Collection is created!');
 });
+
+
+
+module.exports = mongoose.model('Commands', CommandSchema);

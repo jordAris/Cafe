@@ -1,4 +1,6 @@
 const Command = require('./models/class/command');
+const Commands = require('./schema/Command');
+
 const uuid = require('uuid');
 const mongoose = require ('mongoose');
 const { Db } = require('mongodb');
@@ -11,29 +13,46 @@ class commandService{
     createCommand(id, date_hour, ...items) {
         const command = new Command(uuid.v4(), date_hour, ...items);
         command.status= "actif";
-        Command.save();
+        Commands
+        .save()
+        .then((doc) => {
+            console.log(doc);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
         return command
     }
+
     removeCommand(id) {
-        const cmd = Command.findById(id, function (err, docs) {
+        const cmd = Commands.findByIdAndUpdate(id, { status: 'deleted' }, function (err, docs) {
             if (err){
-                console.log(err);
+                console.log(err)
             }
             else{
-                cmd = docs;
-                console.log("Result : ", cmd);
-                cmd.update({status:"deleted"}, function (err, result) {
-                    if (err){
-                        console.log(err)
-                    }else{
-                        console.log("Result :", result) 
-                    }
-                });
-                return cmd
-            };
+                console.log("Updated Command : ", docs);
+            }
         });
+        return cmd
+    };
         
         
+    
+    addCommand(id) {
+        
+
+    }
+
+    getCommandById(id) {
+        const filter = {id};
+        const cmd = Commands.find(filter);
+
+    }
+
+    findAllCommand() {
+        const filter = {};
+        const all = Commands.find(filter);
+
     }
 }
 
