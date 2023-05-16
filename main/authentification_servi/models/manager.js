@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
-const managerSchema = mongoose.Schema({
+const managerSchema = new mongoose.Schema({
     id: String,
     name: String,
+    email: String,
     password: String,
     informationBill: [{
         Info: String,

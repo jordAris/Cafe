@@ -9,6 +9,6 @@ const WaiterSchema = new mongoose.Schema({
     },
 })
 
-const WaiterModel = mongoose.model('waiter', CookSchema);
+const WaiterModel = mongoose.model('waiter', WaiterSchema);
 
 module.exports = WaiterModel;

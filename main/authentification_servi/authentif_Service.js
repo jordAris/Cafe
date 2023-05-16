@@ -1,13 +1,161 @@
-const command = require('../command_servi/models/class/command');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const QRCode = require('qrcode')
+const moment = require('moment')
 const {connectToDatabase, disconnectFromDatabase} = require('./db/database')
-const uuid = require('uuid');
-const TableModel = require('./models/schema/Table');
+const { v4: uuidv4 } = require('uuid');
+const TableModel = require('./models/Table');
+const managerModel = require('./models/manager')
+const WaiterModel = require('./models/waiter')
+const CookModel = require('./models/cook')
+const mongoose = require('mongoose')
+
+
+const config = require('./config/Config')
+
+//authentifService.js
+
+async function managerSignup(name, email, password){
+
+    await connectToDatabase;
+
+    const managerID = uuidv4();
+    const manager = new managerModel({
+        managerID,
+        name,
+        email,
+        password,
+    })
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(manager.password, salt);
+    manager.password = hash;
+
+    await manager.save();
+
+    return { message: 'Manager created successfully' };
+
+    await disconnectFromDatabase;
+}
+
+async function WaiterSignup(name, email, password){
+
+    await connectToDatabase;
+
+    const WaiterID = uuidv4();
+    const waiter = new WaiterModel({
+        WaiterID,
+        name,
+        email,
+        password,
+    })
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(waiter.password, salt);
+    waiter.password = hash;
+
+    await waiter.save();
+
+    return { message: 'Waiter created successfully' };
+
+    await disconnectFromDatabase;
+}
+
+async function CookSignup(name, email, password){
+
+    await connectToDatabase;
+
+    const CookID = uuidv4();
+    const Cook = new CookModel({
+        CookID,
+        name,
+        email,
+        password,
+    })
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(Cook.password, salt);
+    Cook.password = hash;
+
+    await Cook.save();
+
+    return { message: 'Cook created successfully' };
+
+    await disconnectFromDatabase;
+}
+
+async function managerLogin(email, password) {
+    const manager = await managerModel.findOne({email})
+    if (!manager) {
+        throw new Error('Invalid login credentials')
+    }
+
+    const isMatch = await bcrypt.compare(password, manager.password);
+    if(!isMatch){
+        throw new Error('Invalid login credentials')
+    }
+
+    const token = jwt.sign({id: manager.id}, config.jwt.secret, { expiresIn: config.jwt.expiresIn})
+    return { token }
+}
+
+async function costumerLogin(tableID){
+    const tabID = uuidv4();
+
+    return {tableID: tabID};
+}
+
+
+async function waiterLogin(){
+    const otp = Math.floor(100000+Math.random()*900000)
+
+    return {otp}
+}
+
+async function CookLogin(){
+    const otp = Math.floor(100000+Math.random()*900000)
+
+    return {otp}
+}
+
+async function CustomerSignup(){
+    try{
+        const tableID = uuidv4();
+
+        const qrCode = await generateQRCode(tableID);
+
+        return { success: true, message: 'Signup success', qrCode};
+    } catch(error) {
+        console.error(error)
+        return {success: false, message: 'an error occurred'}
+    }
+}
+
+async function generateQRCode(data){
+    try{
+        const options = {
+            type: 'image/png',
+            quality: 0.9,
+            margin: 1,
+            width: 300,
+            height: 300
+        }
+        const qrCode = await QRCode.toDataURL(data, options);
+        return qrCode;
+
+    } catch(error){
+        console.error(error)
+        throw error;
+    }
+}
+
+// userService
 
 async function passerCommand(tabID) {
 
     await connectToDatabase;
 
-    const Command = new commandService.createCommeand(uuid.v4());
+    const Command = new commandService.createCommeand(uuidv4());
     Command.status = 'active'
 
     const table = TableModel.findById(tabID);
@@ -16,13 +164,10 @@ async function passerCommand(tabID) {
         table.command=Command;
         Command.status = 'intention'
         console.log('Your command has been taken in charge')
-        table.updateOne();
+        await table.updateOne();
     } else {
         console.log("an error occurred with the identification of your table")
     }
-
-    await Command.save();
-
 
     return [tabID, Command.id]
 
