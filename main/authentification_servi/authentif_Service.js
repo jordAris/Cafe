@@ -99,7 +99,7 @@ async function managerLogin(email, password) {
     return { token }
 }
 
-async function costumerLogin(tableID){
+async function customerLogin(tableID){
     const tabID = uuidv4();
 
     return {tableID: tabID};
@@ -407,6 +407,15 @@ async function rmvIngredient(IngredientID){
 }
 
 module.exports = {
+    managerSignup,
+    WaiterSignup,
+    CookSignup,
+    managerLogin,
+    customerLogin,
+    waiterLogin,
+    CookLogin,
+    CustomerSignup,
+    generateQRCode,
     passerCommand,
     addItemToCmd,
     remvItemToCMd,
