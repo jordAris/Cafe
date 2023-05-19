@@ -346,16 +346,14 @@ async function consultEmployee() {
 
     await connectToDatabase;
 
-    let employees = []
-    AuthentifService.getUser().forEach(employee => {
-        if ((employee.type == "serveur") || (employee.type == "cook")) {
-            employees.push(employee);
-        }
-    })
+    const waiter = WaiterModel.find();
+    const cook = CookModel.find()
+
+
+    return [waiter, cook];
+    
     
     await disconnectFromDatabase;
-
-    return employees;
 }
 
 async function establishBill (cmdID, tabID){
