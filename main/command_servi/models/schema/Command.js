@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const commandSchema = new mongoose.Schema({
     commandId: String,
     tableId: String,
+    status: String,
     Items: [{
         itemId: String,
         name: String,
         price: String,
         menuType: String,
-        status: String,
+        
     }] 
 })
 
