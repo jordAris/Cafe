@@ -1,49 +1,14 @@
-import express from "express";
+const mongoose = require('mongoose') 
 
-class cook {
-    constructor(id, name, hire_date, commandService){
-        this.id = id;
-        this.name = name;
-        this.hire_date= hire_date;
-        this.commandService= commandService;
-    }
+const CookSchema = new mongoose.Schema({
+    id: String,
+    name: String,
+    hireDate: {
+        type: Date,
+        default: Date.now,
+    },
+})
 
-    get id() {
-        return this.id;
-    }
+const CookModel = mongoose.model('cook', CookSchema);
 
-    get name(){
-        return this.name;
-    }
-
-    get hire_date() {
-        return this.hire_date;
-    }
-
-    consultValidComm(){
-        let ValidCmd = [];
-
-        this.commandService.findAll().forEach(element => {
-            if (element.status == "validate") {
-                ValidCmd.push(element);
-            }
-        });
-
-        return ValidCmd;
-    }
-
-    validate(Id, tableID) {
-        let Cmd = this.authentifService.getCmdByTable(tableID);
-        if (Cmd.ID == Id && Cmd.status == "validate") {
-         Cmd.status = "preparation";
-         return 1;
-        } else {
-         console.log('an error occured');
-         return 0;
-        }
-     }
-    
-    
-}
-
-module.exports = cook;
+module.exports = CookModel;

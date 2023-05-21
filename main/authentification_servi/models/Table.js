@@ -1,16 +1,19 @@
-class Table {
-    constructor(id, tab_num, commandService, menuService){
-        this.id = id;
-        this.tab_num = tab_num;
-        this.commandService= commandService;
-        this.command = null;
-        this.menuService = menuService;
-    }
+const mongoose = require('mongoose')
 
-    makeCommand() {
-        this.command = this.commandService.createCommand();
-        this.command.state = "intention";
+const TableSchema = new mongoose.Schema({
+    id: String,
+    tabNum: Number,
+    command: {
+        items: [{
+            itemsId: String,
+            name: String,
+            price: Number,
+        }],
+        Qté: Number,
     }
+});
+
+const TableModel = mongoose.model('Table', TableSchema);
 
     // addItem(itemId, quantity) {
     //     if (this.command) {
@@ -25,7 +28,7 @@ class Table {
         if (this.command) {
             return this.commandService.getMontant(this.command)
         } else { 
-            console.log("error occurred")
+            console.log("error occurred");
         }
     }
 
@@ -51,6 +54,9 @@ class Table {
         }
         return menu;
     }
-}
+
 
 module.exports = Table;
+
+module.exports = TableModel;
+
