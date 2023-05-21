@@ -1,30 +1,19 @@
-const { ingredientBase, accompagnement } = require("./ingredients");
+const mongoose = require('mongoose')
 
-class Item {
-    constructor(Id, name, price, description, menuType) {
-      this.name = name;
-      this.Id = Id;
-      this.price = price;
-      this.description = description;
-      this.menuType = menuType;
-      this.IngredientBase = []
-      this.Accompagnement = []
-      this.status = "present";
-    }
+const itemsSchema = mongoose.Schema({
+    id: String,
+    name: String,
+    price: Number,
+    description: String,
+    menuType: String,
+    ingredients: [{
+        id: String,
+        price: Number,
+        description: String,
+        IsbasicIngredient: Boolean,
+        }],
+})
 
-    addingredientBase(...ingredientBase){
-        ingredientBase.forEach(element => {
-            this.IngredientBase.push(element)    
-        });
-      }
-    
-      addaccompagnement(...accompagnement){
-        accompagnement.forEach(element => {
-            this.Accompagnement.push(element)
-        });
-      }
-  }
+const itemsModel = mongoose.model('items', itemsSchema);
 
-  
-  
-  module.exports = Item;
+module.exports = itemstsModel;

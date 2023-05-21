@@ -1,25 +1,14 @@
- class Ingredient {
-    constructor(price, description, quantity, IsbasicIngredient ) {
-      this.price = price;
-      this.description = description;
-      this.quantity = quantity;
-      this.IsbasicIngredient = IsbasicIngredient;
-      this.status = "present";
-    }
-  }
+const mongoose = require('mongoose')
 
+const ingredientsSchema = mongoose.Schema({
+    id: String,
+    price: Number,
+    description: String,
+    status: String,
+    quantity: String,
+    IsbasicIngredient: Boolean,
+})
 
-  class accompagnement extends Ingredient {
-    constructor(price, description, quantity){
-        super(price, description, quantity, false)
-    }
-  }
+const ingredientsModel = mongoose.model('ingredients', ingredientsSchema);
 
-  class ingredientBase extends Ingredient {
-    constructor(price, description, quantity){
-      super(price, description, quantity, true)
-    }
-  }
-  
-  module.exports = {accompagnement, Ingredient, ingredientBase }
-    
+module.exports = ingredientsModel;
