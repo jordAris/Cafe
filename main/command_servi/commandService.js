@@ -49,11 +49,25 @@ class commandService{
 
     }
 
-    findAllCommand() {
+    getAllCommand() {
         const filter = {};
         const all = Commands.find(filter);
 
     }
+
+    addItemToCommand() {
+        const filter = {};
+        const all = Commands.find(filter);
+
+    }
+
+    getCommandByStatus() {
+        const filter = {};
+        const all = Commands.find(filter);
+
+    }
+
+
 }
 
     
