@@ -16,4 +16,4 @@ const itemsSchema = mongoose.Schema({
 
 const itemsModel = mongoose.model('items', itemsSchema);
 
-module.exports = itemstsModel;
+module.exports = itemsModel;

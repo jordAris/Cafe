@@ -1,74 +1,124 @@
-const Command = require('./models/class/command');
-const Commands = require('./models/schema/command');
+const commandModel = require('./models/schema/Command')
+const {connectToDatabase, disconnectFromDatabase} = require('./db/database')
 
-const uuid = require('uuid');
+const { v4: uuid} = require('uuid');
 const mongoose = require ('mongoose');
-const { Db } = require('mongodb');
 
-class commandService{
-    constructor() {
-        this.command = []; 
-    }
 
-    createCommand(id, date_hour, ...items) {
-        const command = new Command(uuid.v4(), date_hour, ...items);
-        command.status= "actif";
-        Commands
-        .save()
-        .then((doc) => {
-            console.log(doc);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-        return command
-    }
+//Méthodes pour gérer les commandes
 
-    removeCommand(id) {
-        const cmd = Commands.findByIdAndUpdate(id, { status: 'deleted' }, function (err, docs) {
-            if (err){
-                console.log(err)
-            }
-            else{
-                console.log("Updated Command : ", docs);
-            }
-        });
-        return cmd
-    };
-        
-        
+async function createCommand(date_hour, ...items) {
+    await connectToDatabase;
+
+    const command = new commandModel({id: uuid.v4(), date_hour, ...items});
+    command.status= "actif";
+    command
+    .save()
+    .then((doc) => {
+        console.log(doc);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
     
-    addCommand(id) {
-        
+    await disconnectFromDatabase;
+}
 
-    }
+async function removeCommand(commandId) {
+    await connectToDatabase;
 
-    getCommandById(id) {
-        const filter = {id};
-        const cmd = Commands.find(filter);
+    const cmd = commandModel.findByIdAndUpdate(commandId, { status: 'deleted' }, function (err, docs) {
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log("Updated Command : ", docs);
+        }
+    });
+    
+    await disconnectFromDatabase;
+};
+    
+    
 
-    }
+async function getAllCommand() {
+    await connectToDatabase;
 
-    getAllCommand() {
-        const filter = {};
-        const all = Commands.find(filter);
+    const all = commandModel.find({});
+    return all;
 
-    }
-
-    addItemToCommand() {
-        const filter = {};
-        const all = Commands.find(filter);
-
-    }
-
-    getCommandByStatus() {
-        const filter = {};
-        const all = Commands.find(filter);
-
-    }
-
+    await disconnectFromDatabase;
 
 }
 
+async function getCommandById(id) {
+    await connectToDatabase;
+
+    const cmd = commandModel.findById(id);
+    if(!cmd){
+        throw new Error('Invalid command ID')
+    } 
+    return cmd;
+  
+    await disconnectFromDatabase;
+  
+
+}
+
+
+
+
+async function getCommandByStatus(status) {
+    await connectToDatabase;
     
+    const cmd = commandModel.find({status: status});
+    if(!cmd){
+        throw new Error('No command found')
+    } 
+    return cmd;
+  
+    await disconnectFromDatabase;
+  
+
+}
+
+async function getMontant(commandId){
+    await connectToDatabase;
+
+    let sum=0;
+    const cmd = commandModel.findById(commandId);
+    cmd.Items.forEach(item => {
+        sum+=item.price;
+    });
+    return sum;
+    await disconnectFromDatabase;
+}
+
+async function print(commandId){
+    await connectToDatabase;
+    
+    const cmd = commandModel.findById(commandId);
+    const command= [];
+    cmd.Items.forEach(item => {
+        command.push(item);
+    });
+    
+    return command;
+
+    await disconnectFromDatabase;
+}
+
+module.exports = {
+    createCommand,
+    removeCommand,
+    getAllCommand,
+    getCommandById,
+    getCommandByStatus,
+    getMontant,
+    print,
+      
+  };
+
+
+
 

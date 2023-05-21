@@ -1,22 +1,24 @@
 const mongoose = require('mongoose');
 
-const CommandSchema = new mongoose.Schema({
+const commandSchema = new mongoose.Schema({
     commandId: String,
     tableId: String,
     Items: [{
         itemId: String,
         name: String,
         price: String,
+        menuType: String,
+        status: String,
     }] 
 })
 
-const Commands = mongoose.model('Commands', CommandSchema);
+const commandModel = mongoose.model('commands', commandSchema);
   
 // Create collection of Model
-Commands.createCollection().then(function (collection) {
+commandModel.createCollection().then(function (collection) {
     console.log('Collection is created!');
 });
 
 
 
-module.exports = mongoose.model('Commands', CommandSchema);
+module.exports = commandModel;
