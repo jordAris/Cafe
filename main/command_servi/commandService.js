@@ -11,7 +11,7 @@ async function createCommand(date_hour, ...items) {
     await connectToDatabase;
 
     const command = new commandModel({id: uuid.v4(), date_hour, ...items});
-    command.status= "actif";
+    command.status= "active";
     command
     .save()
     .then((doc) => {
