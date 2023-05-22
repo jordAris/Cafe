@@ -82,7 +82,7 @@ router.get('/getMontant', async (req, res) => {
 
 // Endpoint for print
 
-router.post('/print', async (req, res) => {
+router.get('/print', async (req, res) => {
     const { commandId} = req.body;
   
     try {

@@ -10,17 +10,8 @@ const mongoose = require ('mongoose');
 async function createCommand(date_hour, ...items) {
     await connectToDatabase;
 
-    const command = new commandModel({id: uuid.v4(), date_hour, ...items});
-    command.status= "active";
-    command
-    .save()
-    .then((doc) => {
-        console.log(doc);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
-    
+    const command = new commandModel({id: uuid.v4(), status: "active", date_hour, items});
+    command.save()    
     await disconnectFromDatabase;
 }
 
